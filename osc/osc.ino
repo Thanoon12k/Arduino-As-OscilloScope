@@ -28,19 +28,19 @@ tft.fillScreen(ILI9341_BLACK);
   Serial.print("Generated Sine Wave      Amplitude " + String(amplitude) + " V      Frequency " + String(frequency) + " Hz");
 
 tft.drawRect(boxLeft, boxTop, boxWidth , boxHeight,  ILI9341_DARKGREEN);
-tft.drawFastHLine(boxLeft,centerY,boxWidth,ILI9341_DARKGREEN);
+tft.drawFastHLine(boxLeft,centerY,boxWidth,ILI9341_BLUE);
 tft.drawFastVLine(centerX,boxTop,boxHeight,ILI9341_BLUE);
 Serial.println(tft.height());
 Serial.println(tft.width());
- 
+generateSawtoothWaveformInsideBox(60,30,ILI9341_YELLOW);
 
 }
 
 void loop(void) {
-drawSquareWave(boxLeft, 40, 30,ILI9341_YELLOW);
-delay(10);
-drawSquareWave(boxLeft, 40, 30,ILI9341_BLACK);
-delay(10);
+// drawSquareWave(boxLeft, 20, 30,ILI9341_YELLOW);
+// delay(10);
+// drawSquareWave(boxLeft, 20, 30,ILI9341_BLACK);
+// delay(10);
 // static int xOffset = 0;
 //  cleanOldSineWave();
 //  drawSquareWave(xOffset, 40, 60);
@@ -48,13 +48,43 @@ delay(10);
 //  drawSquareWave(xOffset, 40, 60);
 // xOffset=xOffset+5;
 // delay(50);
-
+\
 
 }
 void ClearScreen() {
     tft.fillScreen(ILI9341_BLACK);
 }
 
+void generateTrianglewaveformInsideBox(int ampt, int width, uint16_t color) {
+    for (int i = boxLeft; i < boxLeft + boxWidth; i++) {
+        // Calculate the duty cycle based on the width
+        int dutyCycle = abs((i % width) - (width / 2));
+
+        // Calculate the vertical position within the box
+        int yPos = centerY - (dutyCycle * ampt / (width / 2));
+
+        // Draw the pixel
+        tft.drawPixel(i, yPos, color);
+
+        // Adjust the delay for the desired frequency
+        delay(10);
+    }
+}
+void generateSawtoothWaveformInsideBox(int ampt, int width, uint16_t color) {
+    for (int i = boxLeft; i < boxLeft + boxWidth; i++) {
+        // Calculate the duty cycle based on the width
+        int dutyCycle = abs((i % width) - (width / 2));
+
+        // Calculate the vertical position within the box
+        int yPos = centerY - (dutyCycle * ampt / (width / 2));
+
+        // Draw the pixel
+        tft.drawPixel(i, yPos, color);
+
+        // Adjust the delay for the desired frequency
+        delay(10);
+    }
+}
 
 void cleanOldSineWave() {
  for (int i = boxLeft; i < boxWidth; i++) {
