@@ -2,7 +2,8 @@
 #include "Adafruit_GFX.h"
 #include "Adafruit_ILI9341.h"
 // 240 * 320
-Adafruit_ILI9341 tft = Adafruit_ILI9341(8, 9, 11, 13, 10, 12);
+// Adafruit_ILI9341 tft = Adafruit_ILI9341(8, 9, 11, 13, 10, 12);
+Adafruit_ILI9341 tft = Adafruit_ILI9341(51, 50, 52, 53, 48, 49); // CS, WR-DC, SDI, SCL, RST, NONE-D/C
 
 // Maximum number of pixels to track. Adjust based on your screen size and sine wave amplitude.
 const int MAX_PIXELS = tft.width(); // Assuming a 320x240 screen
@@ -30,25 +31,19 @@ tft.fillScreen(ILI9341_BLACK);
 tft.drawRect(boxLeft, boxTop, boxWidth , boxHeight,  ILI9341_DARKGREEN);
 tft.drawFastHLine(boxLeft,centerY,boxWidth,ILI9341_BLUE);
 tft.drawFastVLine(centerX,boxTop,boxHeight,ILI9341_BLUE);
-Serial.println(tft.height());
-Serial.println(tft.width());
+testText();
 generateSawtoothWaveformInsideBox(60,30,ILI9341_YELLOW);
 
 }
 
 void loop(void) {
-// drawSquareWave(boxLeft, 20, 30,ILI9341_YELLOW);
-// delay(10);
-// drawSquareWave(boxLeft, 20, 30,ILI9341_BLACK);
-// delay(10);
-// static int xOffset = 0;
-//  cleanOldSineWave();
+
 //  drawSquareWave(xOffset, 40, 60);
 // cleanOldSineWave();
 //  drawSquareWave(xOffset, 40, 60);
 // xOffset=xOffset+5;
 // delay(50);
-\
+
 
 }
 void ClearScreen() {
@@ -135,3 +130,11 @@ unsigned long drawMovingSineWave(int xOffset, int amplitude, int frequency) {
 
  return micros() - start;
 }
+unsigned long testText() {
+  tft.setCursor(boxLeft,boxTop+boxHeight+20 ); tft.setTextColor(ILI9341_YELLOW);  tft.setTextSize(2);  tft.println(" OSCilloScope ");
+  tft.setCursor(0, boxTop+boxHeight+40); tft.setTextColor(ILI9341_BLUE);  tft.setTextSize(2);  tft.println("Input: Triangle Wave  ");
+  tft.setCursor(0, boxTop+boxHeight+60); tft.setTextColor(ILI9341_GREEN);  tft.setTextSize(1);  tft.println("Frequency 100 Hz");
+  tft.setCursor(0, boxTop+boxHeight+80); tft.setTextColor(ILI9341_GREEN);  tft.setTextSize(1);  tft.println("Ampiltude  5 V");
+ 
+}
+
